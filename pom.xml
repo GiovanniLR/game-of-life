@@ -11,7 +11,8 @@
         <build.number>SNAPSHOT</build.number>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <easyb.version>1.4</easyb.version>
-        <cobertura.version>2.6</cobertura.version>
+        <cobertura.plugin.version>2.7</cobertura.plugin.version>
+        <cobertura.version>2.1.1</cobertura.version>
         <!-- A workaround for a bug in PMD -->
         <sourceJdk>1.7</sourceJdk>
         <targetJdk>1.7</targetJdk>
@@ -40,7 +41,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.11</version>
                 <configuration>
-                    <skip>true</skip>
+                    <!-- skip>true</skip-->
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -142,6 +144,41 @@
                     <api_hoster>app.jelastic.servint.net</api_hoster>
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cobertura-maven-plugin</artifactId>
+              <version>${cobertura.plugin.version}</version>
+              <configuration>
+                  <formats>
+                      <format>xml</format>
+                  </formats>
+               </configuration>
+              <dependencies>
+               <dependency>
+                 <groupId>net.sourceforge.cobertura</groupId>
+                   <artifactId>cobertura-runtime</artifactId>
+                   <version>${cobertura.version}</version>
+                   <type>pom</type>
+                      <!--exclusions>
+                            <exclusion>
+                              <groupId>ch.qos.logback</groupId>
+                              <artifactId>logback-classic</artifactId>
+                            </exclusion>
+            	      </exclusions-->  
+               </dependency>
+               <dependency>
+                 <groupId>net.sourceforge.cobertura</groupId>
+                 <artifactId>cobertura</artifactId>
+                 <version>${cobertura.version}</version>
+                 <!--exclusions>
+                  <exclusion>
+                   <groupId>ch.qos.logback</groupId>
+                   <artifactId>logback-classic</artifactId>
+                  </exclusion>
+                 </exclusions-->  
+               </dependency>
+             </dependencies>
+            </plugin>
 
         </plugins>
 
@@ -204,6 +241,7 @@
             <version>1.9.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <modules>
@@ -424,13 +462,20 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>cobertura-maven-plugin</artifactId>
-                        <version>${cobertura.version}</version>
+                        <!--version>${cobertura.plugin.version}</version>
+                        <reportSets>
+                        <reportSet>
+                           <reports>
+                             <report>cobertura</report>
+                           </reports>
+                          </reportSet>
+                          </reportSets>
                         <configuration>
                             <formats>
-                                <format>html</format>
                                 <format>xml</format>
+                                <format>html</format>
                             </formats>
-                        </configuration>
+                        </configuration-->
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
